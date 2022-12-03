@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="planMapper">
+	<!-- resultMap -->
+	<resultMap type="Plan" id="planResultMap">
+		<result property="plNo" column="PLNO" />
+		<result property="plDate" column="PLDATE" />
+		<result property="plTitle" column="PLTITLE" />
+		<result property="plCont" column="PLCONT" />
+		<result property="plMemLimit" column="PLMEMLIMIT" />
+		<result property="plPlace" column="PLPLACE" />
+		<result property="plX" column="PLX" />
+		<result property="plY" column="PLY" />
+		<result property="gNo" column="GNO" />
+		<result property="gName" column="GNAME" />
+		<result property="memCnt" column="MEMCNT" />
+		<result property="dDay" column="DDAY" />
+	</resultMap>
+	
+	<resultMap type="PlanMember" id="planMemberResultMap">
+		<result property="plNo" column="PLNO"/>
+		<result property="uNo" column="UNO"/>
+		<result property="uNick" column="UNICK"/>
+		<result property="uGender" column="UGENDER"/>
+		<result property="uAge" column="UAGE"/>
+	</resultMap>
+	<!-- select -->
+	
+	<select id="selectPlan" parameterType="map"
+		resultMap="planResultMap">
+		select
+			p.plNo,
+			p.plDate,
+			p.plTitle,
+			p.plCont,
+			p.plMemLimit,
+			p.plPlace,
+			p.plX,
+			p.plY,
+			p.gNo,
+			m.gName,
+			pm.memCnt
+		from
+			plan p, moim m,
+			(
+				select
+					count(*) as memCnt,
+					plNo
+				from
+					planMember
+				group by
+					plNo
+			) pm
+		where
+			p.plNo = pm.plNo
+			and p.gNo = m.gNo
+			and p.gNo = #{gNo}
+			and to_char(p.plDate, 'mm') = #{month}
+	</select>
+
+	<select id="selectPlanDetail" parameterType="int"
+		resultMap="planResultMap">
+		 select
+			p.plNo,
+			p.plDate,
+			p.plTitle,
+			p.plCont,
+			p.plMemLimit,
+			p.plPlace,
+			p.plX,
+			p.plY,
+			p.gNo,
+			m.gName,
+			nvl(pm.memCnt,0) as memCnt
+		from
+			plan p, moim m,
+			(
+				select
+					count(*) as memCnt,
+					plNo
+				from
+					planMember
+				group by
+					plNo
+			) pm
+		where
+			p.plNo = pm.plNo(+)
+			and p.gNo = m.gNo
+			and p.plNo = #{plNo}
+	</select>
+	
+	<select id="selectPlanMember" parameterType="int" 
+		resultMap="planMemberResultMap">
+		select
+			pm.plNo,
+			pm.uNo,
+			u.uNick,
+			u.uGender,
+			floor(months_between(sysdate, u.uBirth) / 12) as uAge
+		from
+			planMember pm, tbl_user u
+		where
+			pm.uNo = u.uNo
+			and pm.plNo = #{plNo}
+	</select>
+	
+	<select id="myPlanList" parameterType="map" resultMap="planResultMap">
+		select
+			pl.plNo, g.gName, pl.plTitle,
+			pl.plCont, pl.plDate, pl.plPlace,
+			pl.plX, pl.plY 
+		from
+			plan pl, moim g, planMember pm 
+		where
+			pm.plNo = pl.plNo
+			and g.gNo = pl.gNo 
+			and pm.uNo = #{uNo}
+			and to_char(pl.plDate,'yyyymm') = #{month}
+	</select>
+	<select id="memCnt" parameterType="int" resultType="int">
+		select
+			count(*)
+		from
+			planMember
+		where
+			plNo = #{plNo}
+	</select>
+	<select id="mainPlan" parameterType="int" resultType="int">
+		select 
+			ceil(trunc(plDate,'dd')-sysdate)
+		from 
+			plan 
+		where 
+			plDate >=sysdate 
+			and plNo = #{plNo} 
+		order by 
+			1
+	</select>
+	
+	<select id="mainPlList" parameterType="int" resultMap="planResultMap">
+		select 
+			pl.plNo, pl.plTitle, g.gName,
+			pl.plPlace, pl.plDate
+		from 
+			planMember pm, plan pl, moim g 
+		where
+			g.gNo = pl.gNo 
+			and pm.plNo = pl.plNo 
+			and pm.uNo= #{uNo}
+			and pl.plDate >= sysdate
+		order by
+			pl.plDate
+	</select>
+	
+	<select id="planList" parameterType="map" resultMap="planResultMap">
+		select
+			p.plNo,
+			p.plDate,
+			p.plTitle,
+			p.plCont,
+			p.plMemLimit,
+			p.plPlace,
+			p.plX,
+			p.plY,
+			p.gNo,
+			m.gName,
+			pm.memCnt
+		from
+			plan p, moim m,
+			(
+				select
+					count(*) as memCnt,
+					plNo
+				from
+					planMember
+				group by
+					plNo
+			) pm
+		where
+			p.plNo = pm.plNo(+)
+			and p.gNo = m.gNo
+			and p.gNo = #{gNo}
+			and to_char(p.plDate,'yyyymm')=#{month}
+	</select>
+	<insert id="insertPlan" parameterType="Plan">
+		insert into
+			plan
+		values (
+			seq_plNo.nextval, #{plDate}, #{plTitle}, #{plCont},
+			#{plMemLimit}, #{plPlace}, #{plX}, #{plY}, #{gNo}
+		)
+	</insert>
+	
+	<select id="moimPlan" parameterType="int" resultMap="planResultMap">
+		select
+			p.plNo, p.plDate, p.plPlace, p.plTitle,
+			ceil(trunc(plDate,'dd')-sysdate) as dday
+		from
+			plan p
+		where
+			gNo = #{gNo}
+			and p.plDate >= sysdate
+	</select>
+	
+	<insert id="insertPm" parameterType="map">
+		insert into
+			planMember
+		values (
+			#{plNo}, #{uNo}
+		)
+	
+	</insert>
+	<select id="detPm" parameterType="map" resultType="string">
+		select
+					p.plNo
+				from 
+					planMember pm, plan p 
+				where 
+					pm.plNo = p.plNo 
+					and p.gNo = #{gNo}
+					and pm.uNo = #{uNo}
+	</select>
+	<delete id="delPm" parameterType="map">
+		delete from
+			planMember
+		where
+			plNo in (
+				select
+					p.plNo 
+				from 
+					planMember pm, plan p 
+				where 
+					pm.plNo = p.plNo 
+					and p.gNo = #{gNo} 
+					and pm.uNo = #{uNo}
+			)
+			and uNo = #{uNo}
+	</delete>
+</mapper>

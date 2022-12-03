@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="moimMapper">
+	<!-- resultMap -->
+	<resultMap type="Moim" id="moimResultMap">
+		<result property="gNo" column="GNO" />
+		<result property="gName" column="GNAME" />
+		<result property="gIntro" column="GINTRO" />
+		<result property="gShort" column="GSHORT" />
+		<result property="gThumbOri" column="GTHUMBORI" />
+		<result property="gThumbRen" column="GTHUMBREN" />
+		<result property="gCoverOri" column="GCOVERORI" />
+		<result property="gCoverRen" column="GCOVERREN" />
+		<result property="gJoinYN" column="GJOINYN" />
+		<result property="gCnt" column="GCNT" />
+		<result property="gQ1" column="GQ1" />
+		<result property="gQ2" column="GQ2" />
+		<result property="gQ3" column="GQ3" />
+		<result property="aNo" column="ANO" />
+		<result property="iNo" column="INO" />
+		<result property="sido" column="SIDO" />
+		<result property="gugun" column="GUGUN" />
+		<result property="emd" column="EMD" />
+		<result property="ri" column="RI" />
+		<result property="iCont" column="ICONT" />
+		<result property="memCnt" column="MEMCNT" />
+	</resultMap>
+	<resultMap type="MoimMember" id="moimMemberResultMap">
+		<result property="uNo" column="UNO" />
+		<result property="gNo" column="GNO" />
+		<result property="pNo" column="PNO" />
+		<result property="lNo" column="LNO" />
+		<result property="mgCont" column="MGCONT" />
+		<result property="uNick" column="UNICK" />
+		<result property="uRen" column="UREN" />
+		<result property="uAge" column="UAGE" />
+		<result property="uGender" column="UGENDER" />
+		<result property="lName" column="LNAME" />
+		<result property="pName" column="PNAME" />
+	</resultMap>
+	
+	<resultMap type="BanMember" id="banResultMap">
+		<result property="gNo" column="GNO"/>
+		<result property="uNo" column="UNO"/>
+		<result property="bmCont" column="BMCONT"/>
+		<result property="bDate" column="BDATE"/>
+		<result property="uNick" column="UNICK"/>
+		<result property="uAge" column="UAGE"/>
+		<result property="uGender" column="UGENDER"/>
+	</resultMap>
+	
+	<resultMap type="JoinMember" id="jmResultMap">
+		<result property="gNo" column="GNO"/>
+		<result property="uNo" column="UNO"/>
+		<result property="jmA1" column="JMA1"/>
+		<result property="jmA2" column="JMA2"/>
+		<result property="jmA3" column="JMA3"/>
+		<result property="gQ1" column="GQ1"/>
+		<result property="gQ2" column="GQ2"/>
+		<result property="gQ3" column="GQ3"/>
+		<result property="uNick" column="UNICK"/>
+		<result property="uAge" column="UAGE"/>
+		<result property="uGender" column="UGENDER"/>
+		<result property="sido" column="SIDO"/>
+		<result property="gugun" column="GUGUN"/>
+		<result property="emd" column="EMD"/>
+		<result property="ri" column="RI"/>
+		<result property="uRen" column="uRen"/>
+	</resultMap>
+	<!-- select -->
+	<select id="selectMoimDetail" parameterType="int" resultMap="moimResultMap">
+		select
+			m.gNo,			m.gName,		m.gIntro,
+			m.gShort,		m.gThumbOri,	m.gThumbRen,
+			m.gCoverOri,	m.gCoverRen,	m.gJoinYN,
+			m.gCnt, 		m.gQ1,			m.gQ2,
+			m.gQ3,			m.aNo,			m.iNo,
+			a.sido,			a.gugun,		a.emd,
+			a.ri,			i.iCont,		mm.uNick,
+			mm.uNo
+		from
+			moim m, interest i, area a, (select mg.gNo, u.uNo, u.uNick from myGroup mg, tbl_user u where mg.uNo = u.uNo and mg.lNo=1) mm
+		where
+			m.iNo = i.iNo
+			and m.aNo = a.aNo
+			and mm.gNo = m.gNo
+			and m.gNo = #{gNo}
+	</select>
+	<select id="selectMoimMember" parameterType="int" resultMap="moimMemberResultMap">
+		select
+		    mg.uNo,			mg.gNo,			mg.pNo,
+		    mg.lNo,			mg.mgCont,		u.uNick,
+		    u.uRen,			floor(months_between(sysdate,uBirth) / 12) as uAge,			u.uGender,
+		    l.lName,		p.pName
+		from
+		    myGroup mg
+		    join tbl_user u on mg.uNo = u.uNo
+		    join memberLv l on mg.lNo = l.lNo
+		    left join punishLv p on mg.pNo = p.pNo
+		where
+			 mg.gNo = #{gNo}
+	</select>
+	<select id="selectMoimMemberCnt" parameterType="int" resultType="int">
+		select
+		    count(*)
+		from
+		    myGroup mg
+		    join tbl_user u on mg.uNo = u.uNo
+		    join memberLv l on mg.lNo = l.lNo
+		    left join punishLv p on mg.pNo = p.pNo
+		where
+			 mg.gNo = #{gNo}
+	</select>
+	<select id="selectMoimMemberPaging" parameterType="map" resultMap="moimMemberResultMap">
+	select * from (
+		select
+		    mg.uNo,			mg.gNo,			mg.pNo,
+		    mg.lNo,			mg.mgCont,		u.uNick,
+		    u.uRen,			floor(months_between(sysdate,uBirth) / 12) as uAge,			u.uGender,
+		    l.lName,		p.pName,		rownum as rNum
+		from
+		    myGroup mg
+		    join tbl_user u on mg.uNo = u.uNo
+		    join memberLv l on mg.lNo = l.lNo
+		    left join punishLv p on mg.pNo = p.pNo
+		where
+			 mg.gNo = #{gNo}
+		order by
+			u.uNick asc
+	)
+	where 
+		rNum between #{start} and #{end}
+	order by
+		lNo
+	
+	</select>
+	<select id="selectMoimMemberDetail" parameterType="map" resultMap="moimMemberResultMap">
+		select
+		    mg.uNo,			mg.gNo,			mg.pNo,
+		    mg.lNo,			mg.mgCont,		u.uNick,
+		    u.uRen,			floor(months_between(sysdate,uBirth) / 12) as uAge,			u.uGender,
+		    l.lName,		p.pName
+		from
+		    myGroup mg
+		    join tbl_user u on mg.uNo = u.uNo
+		    join memberLv l on mg.lNo = l.lNo
+		    left join punishLv p on mg.pNo = p.pNo
+		where
+		    u.uNo = #{uNo} 
+		    and mg.gNo = #{gNo}
+	</select>
+	<select id="selectMoimCnt" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			myGroup mg, moim g, tbl_user u, interest i,
+			(
+				select
+					gNo,	count(*) as memCnt
+				from
+					myGroup group by gNo
+			) cnt
+		where
+			g.gNo = mg.gNo
+			and g.iNo = i.iNo
+			and mg.uNo = u.uNo
+			and lNo = 1
+			and cnt.gNo = g.gNo
+			and g.aNo in (
+				select
+					aNo
+				from
+					area
+				where
+					gugun = (
+						select
+							 a.gugun
+						from 
+							area a, tbl_user u
+						where
+							u.aNo=a.aNo
+							and u.uNo=#{uNo}
+					)
+				)
+			and g.gNo not in (
+						select
+							gNo
+						from
+							myGroup
+						where
+							uNo = #{uNo}
+					)
+		<if test="iNo == null and keyword == null">
+			and g.iNo in (
+				select
+					iNo
+				from
+					user_interest
+				where
+					uNo = #{uNo}
+			)
+		</if>
+		<if test="iNo != null">
+			and i.iNo = #{iNo}
+		</if>
+		<if test="keyword != null">
+			and g.gName like '%'||#{keyword}||'%'
+		</if>
+			
+	</select>
+	<select id="selectMoim" parameterType="map" resultMap="moimResultMap">
+		select
+			gNo,		gName,		gIntro,
+			uNick,		memCnt,		iCont,
+			gThumbRen
+		from
+			(
+				select
+					g.gNo,			g.gName,		g.gIntro,
+					g.gThumbRen,	i.iCont,		u.uNick,
+					memCnt, 		rownum as rNum
+				from
+					myGroup mg, moim g, tbl_user u, interest i,
+					(
+						select
+							gNo,	count(*) as memCnt
+						from
+							myGroup group by gNo
+					) cnt
+				where
+					g.gNo = mg.gNo
+					and g.iNo = i.iNo
+					and mg.uNo = u.uNo
+					and lNo = 1
+					and cnt.gNo = g.gNo
+					and g.gNo not in (
+						select
+							gNo
+						from
+							myGroup
+						where
+							uNo = #{uNo}
+					)
+					and g.aNo in (
+						select
+							aNo
+						from
+							area
+						where
+							gugun = (
+								select
+									 a.gugun
+								from 
+									area a, tbl_user u
+								where
+									u.aNo=a.aNo
+									and u.uNo=#{uNo}
+							)
+				)
+				<if test="iNo == null and keyword == null">
+					and g.iNo in (
+						select
+							iNo
+						from
+							user_interest
+						where
+							uNo = #{uNo}
+					)
+				</if>
+				<if test="iNo != null">
+					and i.iNo = #{iNo}
+				</if>
+				<if test="keyword != null">
+					and g.gName like '%'||#{keyword}||'%'
+				</if>
+					order by g.gCnt desc
+			)
+		where 
+			rNum between #{start} and #{end}
+	</select>
+	<insert id="insertMoim" parameterType="Moim">
+	<selectKey keyProperty="gNo" resultType="int" order="BEFORE">
+		select seq_gNo.nextval from dual
+	</selectKey>
+		insert into
+			moim
+		values (
+			#{gNo},	#{gName},		#{gIntro},
+			#{gShort},			default,		#{gThumbOri},
+			#{gThumbRen},		#{gCoverOri},	#{gCoverRen},
+			default,			#{iNo},			default,
+			null,				null,			null,
+			#{aNo}
+		)
+	</insert>
+	<select id="selectFavor" parameterType="map" resultType="string">
+		select
+			uNo
+		from
+			favor
+		where
+			uNo = #{uNo}
+			and gNo = #{gNo}
+	</select>
+	
+	<insert id="insertFavor" parameterType="map">
+		insert into
+			favor
+		values (
+			#{gNo},
+			#{uNo}
+		)
+	</insert>
+	
+	<delete id="deleteMoim" parameterType="map">
+		delete from
+			myGroup
+		where
+			gNo = #{gNo}
+			and uNo = #{uNo}
+	</delete>
+	<select id="selectMoimByMoim" parameterType="Moim" resultType="int">
+		select
+			gNo
+		from 
+			moim
+		where
+			aNo = #{aNo}
+			and iNo = #{iNo}
+			and gThumbOri like #{gThumbOri}
+			and gThumbRen like #{gThumbRen}
+			and gCoverOri like #{gCoverOri}
+			and gCoverRen like #{gCoverRen}
+			and gName = #{gName}
+			and gShort = #{gIntro}
+			and gIntro like #{gShort}
+	</select>
+	<insert id="insertMoimMember" parameterType="moimMember">
+		insert into
+			myGroup
+		values (
+			#{uNo},	#{gNo},	null,	#{lNo},	null
+		)
+	</insert>
+	
+	<update id="updateMoim" parameterType="Moim">
+		update
+			moim
+		set
+			gCnt = #{gCnt}
+		where
+			gNo = #{gNo}
+	</update>
+	<delete id="deleteFavor" parameterType="map">
+		delete from
+			favor
+		where
+			gNo = #{gNo}
+			and uNo = #{uNo}
+	</delete>
+	
+	<select id="selectMyGroup" parameterType="int" resultMap="moimResultMap">
+		<!-- 필요한 파람 : gNo gName gThumbRen 모임장 이름 멤버 카운트 동 카테고리/ -->
+		select
+			g.gNo,			g.gName,	i.iCont,
+			g.gThumbRen,	memCnt,	ld.uNick,
+			a.ri,	g.gIntro
+		from 
+			(
+				select
+					count(*) as memCnt,	gNo
+				from
+					mygroup
+				group by
+					gNo
+			) cnt,	moim g,	myGroup mg,	(
+				select
+					mg.gNo,	u.uNick
+				from
+					mygroup mg,	tbl_user u
+				where
+					mg.uNo = u.uNo
+					and mg.lNo =1
+			) ld,	interest i,	area a
+		where
+			cnt.gNo = g.gNo 
+			and mg.gNo = g.gNo 
+			and ld.gNo = mg.gNo
+			and i.iNo = g.iNo
+			and a.aNo = g.aNo 
+			and uNo = #{uNo}
+		order by
+			g.gNo
+	</select>
+	
+	<select id="mainRecommand" parameterType="int" resultMap="moimResultMap">
+	select
+		* 
+	from
+		(
+			select
+				g.gNo,			g.gName,		g.gIntro,
+				g.gThumbRen,	i.iCont,		u.uNick,
+				memCnt, 		rownum as rNum
+			from
+				myGroup mg, moim g, tbl_user u, interest i,
+				(
+					select
+						gNo,	count(*) as memCnt
+					from
+						myGroup group by gNo
+				) cnt
+			where
+				g.gNo = mg.gNo
+				and g.iNo = i.iNo
+				and mg.uNo = u.uNo
+				and mg.lNo = 1
+				and cnt.gNo = g.gNo
+				and g.gno not in (
+					select
+						gNo
+					from 
+						mygroup 
+					where
+						uNo = #{uNo}
+				)
+				and g.aNo in (
+					select
+						aNo
+					from
+						area
+					where
+						gugun = (
+							select
+								 a.gugun
+							from 
+								area a, tbl_user u
+							where
+								u.aNo=a.aNo
+								and u.uNo=#{uNo}
+						)
+				)
+				and i.iNo in (
+						select
+							iNo
+						from
+							user_interest
+						where
+							uNo = #{uNo}
+					)
+			order by
+				g.gCnt desc
+		)
+	where
+		rNum between 1 and 3
+	</select>
+	<!-- 추천 모임 -->
+	<select id="detBan" parameterType="map" resultType="string">
+		select
+			uNo
+		from
+			banMember
+		where
+			uNo = #{uNo}
+			and gNo = #{gNo}
+	</select>
+	
+	<update id="updateLv" parameterType="map">
+		update
+			myGroup
+		set
+			lNo = #{lNo}
+		where
+			uNo= #{uNo}
+			and gNo = #{gNo}
+	</update>
+	
+	<update id="punishment" parameterType="map">
+	update 
+		myGroup 
+	set 
+		pNo = #{pNo}, mgCont= #{mgCont}
+	where
+		uNo = #{uNo}
+		and gNo = #{gNo}
+	</update>
+	<insert id="ban" parameterType="map">
+		insert into
+			banMember
+		values (
+			#{gNo}, #{uNo}, #{bmCont}, default
+		)
+	</insert>
+	
+	<insert id="insertInvite" parameterType="map">
+		insert into
+			invite
+		values (
+			#{gNo}, #{uNo}
+		)
+	</insert>
+	
+	<select id="banList" parameterType="int" resultMap="banResultMap">
+		select
+			bm.gNo, bm.uNo, bm.bmCont,
+			bm.bDate, u.uNick, u.uGender,
+			floor(months_between(sysdate,uBirth) / 12) as uAge 
+		from 
+			banMember bm, tbl_user u 
+		where 
+			u.uNo = bm.uNo 
+			and gNo = #{gNo}
+	</select>
+	
+	<delete id="deleteBan" parameterType="map">
+		delete from
+			banMember
+		where
+			gNo = #{gNo}
+			and uNo = #{uNo}
+	</delete>
+	
+	<select id="joinMemberList" parameterType="int" resultMap="jmResultMap">
+		select
+			jm.uno, jm.gno, jm.jma1, jm.jma2, jm.jma3,
+			floor(months_between(sysdate,uBirth) / 12) as uAge,
+			u.uNick, u.uGender, g.gQ1, g.gQ2, g.gQ3, u.uRen,
+			a.sido, a.gugun, a.emd, a.ri
+		from 
+			joinmember jm, tbl_user u, moim g, area a 
+		where 
+			jm.uNo = u.uNo 
+			and jm.gNo = g.gNo 
+			and u.aNo = a.aNo
+			and g.gNo = #{gNo}
+	</select>
+	
+	<insert id="insertJm" parameterType="JoinMember">
+		insert into
+			joinMember
+		values (
+			#{uNo}, #{gNo}, #{jmA1}, #{jmA2}, #{jmA3}
+		)
+	</insert>
+	
+	<delete id="delJm" parameterType="map">
+		delete from
+			joinMember
+		where
+			gNo = #{gNo}
+			and uNo = #{uNo}
+	</delete>
+	
+	<update id="updateMoimSetting" parameterType="Moim">
+		update
+			moim
+		set
+			GNAME = #{gName},
+			GINTRO = #{gIntro},
+			GSHORT = #{gShort},
+			GTHUMBORI = #{gThumbOri},
+			GTHUMBREN = #{gThumbRen},
+			GCOVERORI = #{gCoverOri},
+			GCOVERREN = #{gCoverRen},
+			GJOINYN = #{gJoinYN},
+			GQ1 = #{gQ1},
+			GQ2 = #{gQ2},
+			GQ3 = #{gQ3}
+		where
+			gNo = #{gNo}
+	</update>
+	
+	<delete id="delMoim" parameterType="int">
+		delete from
+			moim
+		where
+			gNo = #{gNo}	
+	</delete>
+	
+	<select id="selectJM" parameterType="map" resultType="string">
+		select
+			uno
+		from
+			joinmember
+		where 
+			uno = #{uNo}
+			and gNo = #{gNo}
+	</select>
+</mapper>

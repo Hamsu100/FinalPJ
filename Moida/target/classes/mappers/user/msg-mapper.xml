@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="msgMapper">
+	<resultMap type="Msg" id="msgResultMap">
+		<result property="mNo" column="MNO" />
+		<result property="mContent" column="MCONT" />
+		<result property="mSender" column="MSENDER" />
+		<result property="mReceiver" column="MRECIV" />
+		<result property="mDate" column="MDATE" />
+		<result property="uNick" column="UNICK" />
+		<result property="uRen" column="UREN" />
+		<result property="uNo" column="UNO" />
+		
+	</resultMap>
+	<select id="selectMsg" parameterType="int" resultMap="msgResultMap">
+		select
+			m.mNo, m.mCont, m.mSender, m.mReciv, m.mDate, u.uNick, u.uRen
+		from
+			msg m, tbl_user u
+		where
+			m.mSender = u.uNo
+			and m.mReciv = #{uNo}
+		<if test="keyword != null">
+			and u.uNick like '%'||#{keyword}||'%'
+		</if>
+	</select>
+	<select id="newMsg" parameterType="int" resultMap="msgResultMap">
+		select
+			m.mNo, m.mCont, m.mSender, m.mReciv, m.mDate, u.uNick, u.uRen
+		from
+			msg m, tbl_user u
+		where
+			m.mSender = u.uNo
+			and m.mReciv = #{uNo}
+			and m.mRdYN = 'Y'
+	</select>
+	<select id="selectMsgDetail" parameterType="int" resultMap="msgResultMap">
+		select
+			m.mNo, m.mCont, m.mSender, m.mReciv, m.mDate, u.uNick, u.uNo
+		from
+			msg m, tbl_user u
+		where
+			m.mSender = u.uNo
+			and m.mNo = #{mNo}
+	</select>
+	
+	<insert id="insertMsg" parameterType="Msg">
+		insert into
+			msg
+		values (
+			seq_mNo.nextval, #{mContent}, #{mSender}, #{mReceiver}, default, default
+		)
+	</insert>
+	<delete id="deleteMsg" parameterType="int">
+		delete from
+			msg
+		where
+			mNo = #{mNo}
+	</delete>
+	<update id="updateMsg" parameterType="int">
+		update
+			msg
+		set
+			mRdYn = 'N'
+		where
+			mNo = #{mNo}
+	</update>
+</mapper>

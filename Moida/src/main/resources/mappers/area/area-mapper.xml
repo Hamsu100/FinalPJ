@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="areaMapper">
+	<select id="selectBySido" parameterType="string" resultType="string">
+		select
+			gugun
+		from
+			area
+		where
+			sido = #{sido}
+		group by
+			gugun
+	</select>
+	<select id="selectByGugun" parameterType="map" resultType="string">
+		select
+			emd
+		from
+			area
+		where
+			sido = #{sido}
+			and gugun = #{gugun}
+		group by
+			emd
+	</select>
+	<select id="selectByEmd" parameterType="map" resultType="map">
+		select
+			ri,
+			aNo
+		from
+			area
+		where
+			sido = #{sido}
+			and gugun = #{gugun}
+			and emd = #{emd}
+	</select>
+</mapper>

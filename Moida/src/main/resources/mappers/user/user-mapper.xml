@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userMapper">
+	<resultMap type="com.kh.moida.user.model.vo.User" id="userResultMap">
+		<result property="uNo" column="UNO" />
+		<result property="uLoginId" column="ULOGINID" />
+		<result property="uPwd" column="UPWD" />
+		<result property="uGender" column="UGENDER" />
+		<result property="uBirth" column="UBIRTH" />
+		<result property="uNick" column="UNICK" />
+		<result property="uOri" column="UORI" />
+		<result property="uRen" column="UREN" />
+		<result property="aNo" column="ANO" />
+		<result property="sido" column="SIDO" />
+		<result property="gugun" column="GUGUN" />
+		<result property="emd" column="EMD" />
+		<result property="ri" column="RI" />
+		<result property="uAge" column="UAGE" />
+	</resultMap>
+	<select id="inviteMember" parameterType="int" resultMap="userResultMap">
+		select
+			u.uNick, floor(months_between(sysdate,uBirth) / 12) as uAge,
+			u.uRen, u.uNo, u.uGender,
+			a.sido, a.gugun, a.emd, a.ri 
+		from
+			tbl_user u, area a, user_interest ui
+		where
+			u.aNo = a.aNo
+			and u.uNo = ui.uNo
+			and a.gugun = (select a.gugun from moim g, area a where a.aNo = g.aNo and g.gNo = #{gNo}) 
+			and ui.iNo = (select iNo from moim where gNo = #{gNo})
+			and u.uNo not in (select uNo from invite where gNo = #{gNo})
+			and u.uNo not in (select uNo from myGroup where gNo=#{gNo})
+		order by
+			u.uNick
+	</select>
+	<select id="selectUserById" parameterType="string" resultMap="userResultMap">
+		select
+			u.uNo, u.uLoginId, u.uPwd,
+			u.uGender, u.uNick, u.uRen,
+			u.aNo, a.sido, a.gugun,
+			a.emd, a.ri, u.uOri,	u.uBirth,
+			floor(months_between(sysdate,uBirth) / 12) as uAge
+		from
+			tbl_user u, area a
+		where
+			u.aNo = a.aNo
+			and u.uLoginId = #{uLoginId}
+			and u.uStatus = 'Y'
+	</select>
+	
+	<select id="duplicateId" parameterType="string" resultType="string">
+		select
+			uLoginId
+		from
+			tbl_user
+		where
+			uLoginId = #{uId}
+			and uStatus = 'Y'
+	</select>
+	
+	<select id="duplicateNick" parameterType="string" resultType="string">
+		select
+			uNick
+		from
+			tbl_user
+		where
+			uNick = #{uNick}
+			and uStatus = 'Y'
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		insert into 
+			tbl_user
+		values (
+			seq_uNo.nextval,	#{uLoginId},		#{uPwd},
+			#{uBirth},			#{uGender},			#{uNick},
+			#{uOri},			#{uRen},			default,
+			default,			#{aNo}
+		)
+	</insert>
+	
+	<insert id="insertUserInterest" parameterType="string">
+		insert into
+			user_interest
+		values (
+			#{uNo},
+			#{iNo}
+		)
+	</insert>
+	
+	<select id="selectInterest" parameterType="int" resultType="string">
+		select
+			iNo
+		from
+			user_interest
+		where
+			uNo = #{uNo}
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+		update
+			tbl_user
+		set
+			<if test="uRen != null">
+			uOri = #{uOri},
+			uRen = #{uRen},
+			</if>
+			aNo = #{aNo},
+			uNick = #{uNick}
+		where
+			uNo = #{uNo}
+	</update>
+	
+	<update id="updatePwd" parameterType="User">
+		update
+			tbl_user
+		set
+			uPwd = #{uPwd}
+		where 
+			uNo = #{uNo}
+	</update>
+	<delete id="deleteInterest" parameterType="int">
+		delete from
+			user_interest
+		where
+			uNo = #{uNo}
+	</delete>
+	<update id="outUser" parameterType="User">
+		update
+			tbl_user
+		set
+			uStatus = 'N'
+		where
+			uNo = #{uNo}
+	</update>
+	
+	<select id="userNick" parameterType="map" resultMap="userResultMap">
+		select
+			uNo, uNick
+		from
+			tbl_user
+		where
+			uNo != #{loginUser}
+		<if test="uNo != null">
+			and uNo = #{uNo}
+		</if>
+	</select>
+	
+	<select id="searchUser" parameterType="map" resultMap="userResultMap">
+		select
+			uNo, uNick
+		from
+			tbl_user
+		where
+			uNo != #{loginUser}
+	</select>
+	
+	<select id="selectByUNo" parameterType="int" resultMap="userResultMap">
+		select
+			*
+		from
+			tbl_user
+		where
+			uNo = #{uNo}
+	</select>
+</mapper>

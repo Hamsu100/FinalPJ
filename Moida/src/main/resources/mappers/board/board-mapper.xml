@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardMapper">
+	<!-- resultMap -->
+	<resultMap type="com.kh.moida.board.model.vo.Board" id="boardResultMap">
+		<result property="bNo" column="BNO" />
+		<result property="bTitle" column="BTITLE" />
+		<result property="bCont" column="BCONT" />
+		<result property="bOri" column="BORI" />
+		<result property="bRen" column="BREN" />
+		<result property="bMdf" column="BMDF" />
+		<result property="bRdCnt" column="BRDCNT" />
+		<result property="uNo" column="UNO" />
+		<result property="cNo" column="CNO" />
+		<result property="bcNo" column="BCNO" />
+		<result property="gNo" column="GNO" />
+		<result property="uNick" column="UNICK" />
+		<result property="bcCont" column="BCCONT" />
+		<result property="cTitle" column="CTITLE" />
+		<result property="uRen" column="UREN" />
+		<result property="cnt" column="CNT"/>
+	</resultMap>
+	<resultMap type="com.kh.moida.board.model.vo.Reply" id="replyResultMap">
+		<result property="rNo" column="RNO" />
+		<result property="rCont" column="RCONT" />
+		<result property="rMdf" column="RMDF" />
+		<result property="uNo" column="UNO" />
+		<result property="bNo" column="BNO" />
+		<result property="gNo" column="GNO" />
+		<result property="uNick" column="UNICK" />
+		<result property="uRen" column="UREN" />
+	</resultMap>
+	<resultMap type="com.kh.moida.board.model.vo.Greet" id="greetResultMap">
+		<result property="grNo" column="GRNO" />
+		<result property="grCont" column="GRCONT" />
+		<result property="grCrt" column="GRCRT" />
+		<result property="grMdf" column="GRMDF" />
+		<result property="grStatus" column="GRSTATUS" />
+		<result property="uNo" column="UNO" />
+		<result property="gNo" column="GNO" />
+		<result property="uNick" column="UNICK" />
+	</resultMap>
+	<resultMap type="Challenge" id="chalResultMap">
+		<result property="cNo" column="CNO"/>
+		<result property="cTitle" column="CTITLE"/>
+		<result property="cCont" column="CCONT"/>
+		<result property="cDate" column="CDATE"/>
+		<result property="gNo" column="GNO"/>
+		<result property="gName" column="GNAME"/>
+	</resultMap>
+	
+	<!-- select -->
+	<select id="selectBoardCnt" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			board b
+            join boardCat bc on bc.bcNo = b.bcNo
+			join tbl_user u on u.uNo = b.uNo
+            left join challenge c on c.cNo=b.cNo
+		where
+            b.bStatus = 'Y'
+			and b.gNo = #{gNo}
+		<if test="bcNo != null">
+			and b.bcNo = #{bcNo}
+		</if>
+		<if test="writer != null">
+			and u.uNick like '%'||#{writer}||'%'
+		</if>
+		<if test="title != null">
+			and b.bTitle like '%'||#{title}||'%'
+		</if>	
+	</select>
+	<select id="selectBoard" parameterType="map"
+		resultMap="boardResultMap">
+		select
+			bNo,	bTitle,		bCont,
+			bOri,	bRen,		bMdf,
+			bRdCnt,	uNo,		cNo,
+			bcNo,	gNo,		uNick,
+			bcCont,	cTitle,		uRen
+		from
+			(
+				select
+					b.bNo,		b.bTitle,	b.bCont,
+					b.bOri,		b.bRen,		b.bMdf,
+					b.bRdCnt,	b.uNo,		b.cNo,
+					b.bcNo,		b.gNo,		u.uNick,
+					bc.bcCont,	c.cTitle,	u.uRen,
+					rownum as rNum
+				from
+					board b
+		            join boardCat bc on bc.bcNo = b.bcNo
+					join tbl_user u on u.uNo = b.uNo
+		            left join challenge c on c.cNo=b.cNo
+				where
+					b.bStatus = 'Y'
+					and b.gNo = #{gNo}
+				<if test="bcNo != null">
+					and b.bcNo = #{bcNo}
+				</if>
+				<if test="writer != null">
+					and u.uNick like '%'||#{wirter}||'%'
+				</if>
+				<if test="title != null">
+					and b.bTitle like '%'||#{title}||'%'
+				</if>	
+				order by 
+					b.bNo desc
+			)
+		where
+			rNum between #{start} and #{end}
+		order by 
+			bcNo
+	</select>
+	<select id="selectBoardDetail" parameterType="int" resultMap="boardResultMap">
+		select
+			b.bNo,		b.bTitle,	b.bCont,
+			b.bOri,		b.bRen,		b.bMdf,
+			b.bRdCnt,	b.uNo,		b.cNo,
+			b.bcNo,		b.gNo,		u.uNick,
+			bc.bcCont,	c.cTitle,	u.uRen
+		from
+			board b            
+            join tbl_user u on u.uNo = b.uNo
+            join boardCat bc on bc.bcNo = b.bcNo
+            left join challenge c on c.cNo = b.cNo
+		where
+			b.bStatus = 'Y'
+			and b.bNo = #{bNo}
+	</select>
+	<select id="selectReply" parameterType="int" resultMap="replyResultMap">
+		select
+			r.rNo,	r.rCont,	r.rMdf,
+			r.uNo,	r.gNo,	r.bNo,
+			u.uNick,	u.uRen
+		from
+			reply r, tbl_user u
+		where
+			r.uNo = u.uNo
+			and r.rStatus = 'Y'
+			and r.bNo = #{bNo}
+			order by r.rNo desc
+	</select>
+	<insert id="insertBoard" parameterType="com.kh.moida.board.model.vo.Board">
+		insert into
+			board (
+				bNo,	bTitle,		bCont,		bOri,	bRen,
+				bCrt,	bMdf,	bStatus,	uNo,
+				<if test="cNo != 0">
+					cNo,
+				</if>
+				bcNo,	gNo,		bRdCnt
+			)
+		values (
+			seq_bNo.nextval,	#{bTitle},			#{bCont},
+			#{bOri},
+			#{bRen},
+			default,	default,	default,	#{uNo},
+			<if test="cNo != 0">
+			#{cNo},
+			</if>
+			#{bcNo},	#{gNo},		default
+		)
+	</insert>
+	
+	<update id="rdBoard" parameterType="Board">
+		update
+			board
+		set
+			bRdCnt = #{bRdCnt}
+		where
+			bNo = #{bNo}
+	</update>
+	<update id="updateBoard" parameterType="com.kh.moida.board.model.vo.Board">
+		update
+			board
+		set
+			bTitle = #{bTitle},	
+			bCont = #{bCont},
+			bOri = #{bOri},
+			bRen = #{bRen},
+			bcNo = #{bcNo},
+			<if test="cNo != 0">
+			cNo = #{cNo},
+			</if>
+			bMdf = sysdate
+		where
+			bNo = #{bNo}
+	</update>
+	<update id="deleteBoard" parameterType="int">
+		update
+			board
+		set
+			bStatus = 'N'
+		where
+			bNo = #{bNo}
+	</update>
+	<insert id="insertReply" parameterType="com.kh.moida.board.model.vo.Reply">
+		insert into
+			reply
+		values (
+			seq_rNo.nextval,		#{rCont},			default,
+			default,			default,			#{uNo},
+			#{bNo},				#{gNo}
+		)
+	</insert>
+	<update id="updateReply" parameterType="com.kh.moida.board.model.vo.Reply">
+		update
+			reply
+		set
+			rCont = #{rCont},
+			rMdf = sysdate
+		where
+			rNo = #{rNo}
+	</update>
+	<update id="deleteReply" parameterType="int">
+		update
+			reply
+		set
+			rStatus = 'N'
+		where
+			rNo = #{rNo}
+	</update>
+	<select id="selectGreet" parameterType="map" resultMap="greetResultMap">
+	
+		select
+			grNo,	grCont,	grMdf,
+			uNo,	gNo,	uNick,
+			uRen
+		from
+			(select mm.*, rownum as rNum from(
+				select
+					gr.grNo,	gr.grCont,	gr.grMdf,
+					gr.uNo,		gr.gNo,		u.uNick,
+					u.uRen
+					
+				from
+					greet gr, tbl_user u
+				where 
+					gr.uNo = u.uNo
+					and gr.grStatus = 'Y'
+					and gr.gNo = #{gNo}
+					order by grNo desc) mm
+			)
+		where
+			rNum between #{start} and #{end}
+	</select>
+	<insert id="insertGreet" parameterType="Greet">
+		insert into
+			greet
+		values (
+			seq_grNo.nextval,
+			#{grCont},
+			default,
+			default,
+			default,
+			#{uNo},
+			#{gNo}
+		)
+	</insert>
+	<update id="updateGreet" parameterType="com.kh.moida.board.model.vo.Greet">
+		update
+			greet
+		set
+			grCont = #{grCont},
+			grMdf = sysdate
+		where
+			grNo = #{grNo}
+	</update>
+	<update id="deleteGreet" parameterType="int">
+		update
+			greet
+		set
+			grStatus = 'N'
+		where
+			grNo = #{grNo}
+	</update>
+	
+	<select id="selectGrCnt" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			greet
+		where
+			gNo = ${gNo}
+			and grStatus = 'Y'
+	</select>
+	<select id="selectChalList" parameterType="int" resultMap="chalResultMap">
+		select
+			c.cNo,	c.cTitle,	c.cCont,
+			c.cDate,	c.gNo,	g.gName
+		from
+			challenge c, moim g
+		where
+			c.gNo = g.gNo
+			and g.gNo = ${gNo}
+			and c.cDate >= sysdate
+	</select>
+	
+	<select id="selectReplyDetail" parameterType="int" resultMap="replyResultMap">
+		select
+			r.rNo,	r.rCont,	r.rMdf,
+			r.uNo,	r.bNo,	r.gNo,
+			u.uNick
+		from
+			reply r, tbl_user u
+		where
+			r.uNo = u.uNo
+			and r.rNo = ${rNo}
+	</select>
+	<select id="selectGrByNo" parameterType="int" resultMap="greetResultMap">
+		select
+			gr.grNo,	gr.grCont,	gr.grMdf,
+			gr.uNo,		gr.gNo,		u.uNick,
+			u.uRen
+		from
+			greet gr, tbl_user u
+		where
+			gr.uNo = u.uNo
+			and gr.grNo = #{grNo}
+	</select>
+	
+	<select id="selectNotice" parameterType="int" resultMap="boardResultMap">
+		select
+			*
+		from 
+			(
+				select 
+					bNo,	bTitle,		bMdf,
+					rownum as rNum
+				from
+					board
+				where
+					bcNo = 1 
+					and bStatus='Y' 
+					and gNo = #{gNo} 
+				order by
+					bNo desc
+			) 
+		where 
+			rNum between 1 and 10
+	</select>
+	<select id="selectImg" parameterType="int" resultMap="boardResultMap">
+	select 
+		bNo,	bRen,	rownum as rNum
+	from
+		board
+	where 
+		bcNo = 3 
+		and bStatus='Y' 
+		and gNo = #{gNo} 
+	order by 
+		bNo desc
+	</select>
+	<select id="selectAfter" parameterType="int" resultMap="boardResultMap">
+		select
+			*
+		from
+			(
+				select
+					b.bNo,	u.uRen,		u.uNick,
+					b.bMdf, b.bTitle,	nvl(cnt.reCnt, 0) as cnt,
+					rownum as rNum
+				from 
+					board b
+				join 
+					tbl_user u 
+				on 
+					u.uNo=b.uno
+				left join
+					(
+						select
+							bNo,	count(*) as reCnt
+						from
+							reply
+						where
+							rStatus='Y' 
+						group by
+							bNo
+					) cnt
+				on
+					cnt.bNo = b.bNo
+				where
+					b.bcNo=4
+					and gNo = #{gNo}
+					and bStatus = 'Y'
+				order by
+					bNo desc
+			)
+		where
+			rNum between 1 and 3
+	</select>
+	<select id="selectChal" parameterType="int" resultMap="boardResultMap">
+		select
+			*
+		from
+			(
+				select
+					b.bNo,	u.uRen,		u.uNick,
+					b.bMdf, b.bTitle,	nvl(cnt.reCnt, 0) as cnt,
+					rownum as rNum
+				from 
+					board b
+				join 
+					tbl_user u 
+				on 
+					u.uNo=b.uno
+				left join
+					(
+						select
+							bNo,	count(*) as reCnt
+						from
+							reply
+						where
+							rStatus='Y' 
+						group by
+							bNo
+					) cnt
+				on
+					cnt.bNo = b.bNo
+				where
+					b.bcNo=5
+					and gNo = #{gNo}
+					and bStatus = 'Y'
+				order by
+					bNo desc
+			)
+		where
+			rNum between 1 and 3
+	</select>
+	
+	<select id="mainBoard" parameterType="int" resultMap="boardResultMap">
+		select
+			*
+		from
+			(
+				select
+					b.bNo,	b.bTitle,	b.bMdf,
+					u.uNick,	rownum as rNum
+				from
+					board b,	tbl_user u
+				where
+					b.uNo = u.uNo
+					and b.bStatus = 'Y'
+					and b.gNo = #{gNo}
+				order by
+					b.bNo desc
+			)
+		where
+			rNum between 1 and 4
+	</select>
+	<select id="myChalList" parameterType="map" resultMap="chalResultMap">
+		select
+			cNo, cTitle, cCont, cDate, gName 
+		from 
+			challenge c, moim g, myGroup mg
+		where 
+			c.gNo = g.gno
+			and g.gNo = mg.gNo
+            and mg.uNo = #{uNo}
+			and to_char(c.cDate,'yyyymm') = #{month}
+			and c.cDate >= sysdate
+	</select>
+	<select id="myChal" parameterType="int" resultMap="chalResultMap">
+		select
+			cNo, cTitle, cCont, cDate, gName 
+		from 
+			challenge c, moim g 
+		where 
+			c.gNo = g.gno 
+			and cNo= #{cNo} 
+	</select>
+	
+	<select id="chalList" parameterType="map" resultMap="chalResultMap">
+		select
+			cNo, cTitle, cCont, cDate, gName, g.gNo
+		from 
+			challenge c, moim g
+		where 
+			c.gNo = g.gNo
+			and c.gNo = #{gNo}
+			and to_char(c.cDate,'yyyymm') = #{month}
+	</select>
+	
+	<insert id="insertChal" parameterType="Challenge">
+		insert into
+			challenge
+		values (
+			seq_cNo.nextval, #{cTitle}, #{cCont}, #{cDate}, #{gNo}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,1074 @@
+    .logo {
+        width: 115px;
+        height: 25px;
+    }
+    
+    .logo2 {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .logo3 {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .icon-coral {
+        color: #FF6F61;
+    }
+    
+    .icon-yellow {
+        color: #FFD966;
+    }
+    
+    .sidebar {
+        border-top: 1.5px solid #FF6F61;
+        border-right: 1.5px solid #FF6F61;
+        border-bottom: 1.5px solid #FF6F61;
+        border-left: 1.5px solid #FF6F61;
+        border-radius: 0px 20px 20px 0px;
+    }
+    
+    .sidebar-oneline {
+        border: 1px solid grey;
+        border-radius: 3px;
+        text-align: center;
+        font-size: .60rem
+    }
+    
+    .sidebar-list {
+        overflow: auto;
+        width: 170px;
+        height: 80px;
+    }
+    
+    .sidebar-listul {
+        list-style: none;
+    }
+    
+    .joinbox {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+        border-radius: 10px;
+    }
+    /* join.html쓰인거 부분 수정 */
+    
+    .join-hero {
+        height: 300px;
+        width: 100%;
+        background-position: center;
+    }
+    
+    body::-webkit-scrollbar {
+        width: 5px;
+        /* 스크롤바의 너비 */
+    }
+    
+    body::-webkit-scrollbar-thumb {
+        height: 30%;
+        /* 스크롤바의 길이 */
+        background: #FF6F61;
+        /* 스크롤바의 색상 */
+        border-radius: 10px;
+    }
+    
+    body::-webkit-scrollbar-track {
+        background: rgb(255, 255, 255);
+        /*스크롤바 뒷 배경 색상*/
+    }
+    
+    .sidebar-list::-webkit-scrollbar {
+        /* 스크롤바 너비 */
+        width: 8px;
+    }
+    
+    .sidebar-list::-webkit-scrollbar-thumb {
+        height: 50%;
+        background-color: grey;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    
+    .sidebar-list::-webkit-scrollbar-track {
+        background-color: white;
+        /* 뒷배경 색상 */
+    }
+    
+    .tg {
+        border: none;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    
+    .tg td {
+        font-size: 14px;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+    }
+    
+    .tg th {
+        font-size: 14px;
+        font-weight: normal;
+        overflow: hidden;
+        padding: 10px 5px;
+        word-break: normal;
+    }
+    
+    .tg .sidebarname {
+        font-size: 16px;
+        text-align: left;
+        vertical-align: center;
+        padding: 0;
+    }
+    
+    .tg .sidebarmessage {
+        text-align: left;
+        vertical-align: center;
+        padding: 0;
+    }
+    
+    .tg .sidebargenage {
+        font-size: 12px;
+        text-align: center;
+        vertical-align: center;
+        padding: 0, 0, 0, 3rem;
+    }
+    
+    .tg .tg-6ibf {
+        border-color: inherit;
+        font-size: 24px;
+        border-bottom: 1px solid #F2F2F2;
+        text-align: center;
+        vertical-align: top;
+        padding-left: 25px;
+    }
+    
+    .tg .tg-6ibf1 {
+        border-color: inherit;
+        font-size: 24px;
+        text-align: center;
+        vertical-align: top;
+        padding-left: 25px;
+    }
+    
+    .tg .tg-fuxe {
+        font-size: 18px;
+        text-align: left;
+        vertical-align: center;
+        padding-left: 80px;
+        border-bottom: 1px solid #F2F2F2;
+    }
+    
+    .tg .tg-fuxe1 {
+        font-size: 18px;
+        text-align: left;
+        vertical-align: center;
+        padding-left: 80px;
+        padding-top: 15px;
+    }
+    
+    .tg .boardTitle {
+        font-size: 20px;
+        text-align: center;
+        vertical-align: center;
+        border-bottom: 1px solid #F2F2F2;
+    }
+    
+    .tg .board1 {
+        font-size: 18px;
+        text-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        vertical-align: center;
+    }
+    
+    .tg .board2 {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: center;
+    }
+    
+    .tg .board3 {
+        font-size: 18px;
+        text-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        vertical-align: center;
+    }
+    
+    .tg .board4 {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: center;
+    }
+    /* 새로 추가 */
+    
+    .signupmodal {
+        background-color: #E7E6E6;
+    }
+    
+    .ms-n4-1 {
+        margin-left: -1.7rem!important
+    }
+    
+    .ms-n3-1 {
+        margin-left: -1.1rem!important
+    }
+    
+    .me-4-1 {
+        margin-right: 1.75rem!important
+    }
+    
+    .tg .signupTitle {
+        border-color: gray;
+        border-bottom: 1px solid;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: center;
+    }
+    
+    .tg .signupMiddle {
+        border-color: gray;
+        border-bottom: 1px solid;
+        font-size: 15px;
+        text-align: left;
+        vertical-align: center
+    }
+    
+    .tg .signupMiddle2 {
+        border-color: gray;
+        border-bottom: 1px solid;
+        font-size: 15px;
+        text-align: left;
+        vertical-align: center
+    }
+    
+    .tg .signuplast {
+        font-size: 15px;
+        text-align: left;
+        vertical-align: center
+    }
+    
+    .tg .signuplast2 {
+        font-size: 15px;
+        text-align: center;
+        vertical-align: center
+    }
+    /* 10월 4일 추가 */
+    
+    .tg .mylist {
+        text-align: left;
+        vertical-align: top;
+    }
+    
+    .tg .mylistheadcnt {
+        text-align: left;
+        vertical-align: center;
+    }
+    
+    .tg .mylistbtn {
+        text-align: right;
+        vertical-align: top;
+    }
+    
+    .mylistimg {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .mylisttable {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+        border-collapse: separate;
+        border-radius: 10px;
+    }
+    
+    .mylistloca {
+        font-size: 120%;
+        font-weight: 200;
+        pointer-events: none;
+    }
+    
+    .offset-9-1 {
+        margin-left: 81.5%
+    }
+    
+    .offset-11-1 {
+        margin-left: 93.5%
+    }
+    /* 10월 4일 태근님 꺼 추가 */
+    
+    .tg .block {
+        font-size: 20px;
+        text-align: center;
+        vertical-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        background-color: #FFA197;
+        font-weight: 200;
+        vertical-align: top;
+        color: #ffffff;
+    }
+    
+    .tg .block1 {
+        font-size: 15px;
+        text-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        vertical-align: center;
+    }
+    
+    .tg .block3 {
+        font-size: 15px;
+        text-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        vertical-align: center;
+    }
+    /* 10월 5일 추가 */
+    
+    .searchbox {
+        background-color: #FFD966;
+        border-radius: 0px 0px 15px 15px;
+    }
+    
+    .tg .searchcate {
+        text-align: right;
+        vertical-align: center;
+        font-size: 20px;
+    }
+    
+    .tg .searchtitle {
+        text-align: left;
+        vertical-align: center;
+        font-size: 23px;
+    }
+    
+    .searchimg {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .tg .searchlist {
+        text-align: left;
+        vertical-align: center;
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+        font-size: 15px;
+    }
+    
+    .tg .mypagebtn {
+        text-align: right;
+        vertical-align: center;
+    }
+    
+    .tg .mypagetitle {
+        text-align: center;
+        vertical-align: center;
+        font-size: 20px;
+    }
+    
+    .tg .mypage2 {
+        text-align: left;
+        vertical-align: center;
+        font-size: 20px;
+    }
+    
+    .tg .mypage1 {
+        text-align: left;
+        vertical-align: top;
+    }
+    /* 김상혁 photo 부분 */
+    
+    .tg .photo1 {
+        text-align: left;
+        vertical-align: top
+    }
+    
+    .photo-board>img {
+        height: 250px;
+        width: 100%;
+        display: block;
+        object-fit: fill;
+    }
+    
+    .photo-board2>img {
+        height: 500px;
+        width: 100%;
+    }
+    /* 10월 6일 추가 */
+    /* 김태근 listset 내용 */
+    
+    .tg .listset {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: center;
+        background-color: #FFA197;
+        vertical-align: top;
+        color: #ffffff;
+    }
+    
+    .tg .listset1 {
+        font-size: 15px;
+        text-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        vertical-align: center;
+    }
+    
+    .tg .listset3 {
+        font-size: 15px;
+        text-align: center;
+        border-bottom: 1px solid #F2F2F2;
+        vertical-align: center;
+    }
+    
+    .listsetbox {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+    }
+    /* 10월 9일 추가 */
+    
+    .input-file-button {
+        vertical-align: center;
+        text-align: center;
+        background-color: white;
+        border-radius: 2px;
+        display: inline-block;
+        cursor: pointer;
+    }
+    
+    #input-file {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        border: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+    }
+    
+    .tg .mypage3 {
+        text-align: left;
+        vertical-align: center;
+        font-size: 18px
+    }
+    
+    .offset-7-1 {
+        margin-left: 64%
+    }
+    
+    .main-hero {
+        height: 300px;
+        width: 100%;
+        background-position: center;
+    }
+    
+    .mainli {
+        list-style: none;
+    }
+    
+    .slide_wrapper {
+        position: relative;
+        margin: 0 auto;
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .slides {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: left 0.5s ease-out;
+    }
+    
+    .slides li:not(:last-child) {
+        justify-content: flex-start;
+        margin-right: 15px;
+    }
+    
+    .maincontrols {
+        text-align: center;
+    }
+    
+    .maincontrols span {
+        z-index: 2;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .maincontrols>.prev {
+        right: calc(100% - 40px);
+    }
+    
+    .maincontrols>.next {
+        left: calc(100% - 40px);
+    }
+    
+    .mainphoto {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .mainboardp {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        width: 400px;
+    }
+    /* 10월 10일 추가 */
+    
+    .mainboard-list {
+        width: 100%;
+        list-style-type: square;
+    }
+    
+    .mainboard-list li {
+        margin-left: -1rem
+    }
+    
+    .mainboard-list li a {
+        position: relative;
+        display: block;
+        line-height: 30px;
+        color: black;
+    }
+    
+    .mainboard-list li a .title {
+        display: block;
+        text-overflow: ellipsis;
+        width: 350px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    
+    .mainboard-list li a .date {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    /* 김태근 추가 */
+    
+    .offset-10-1 {
+        margin-left: 86.5%
+    }
+    /* 10월 11일 */
+    /* 김상혁 invite */
+    
+    .invite-list {
+        overflow: auto;
+        height: 600px;
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .invitename {
+        font-size: 18px;
+        text-align: left;
+        vertical-align: center;
+        padding: 3px 0px;
+    }
+    
+    .tg .invitephoto {
+        text-align: center;
+        vertical-align: center;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .inviteage {
+        font-size: 18px;
+        text-align: left;
+        vertical-align: center;
+        padding: 3px 0px;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .invitegender {
+        font-size: 18px;
+        text-align: left;
+        vertical-align: center;
+        padding: 3px 0px;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .inviteregion {
+        font-size: 18px;
+        text-align: left;
+        vertical-align: center;
+        padding: 3px 0px;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .invitebutn {
+        text-align: center;
+        vertical-align: left;
+        padding: 3px 0px;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .invite-list::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .invite-list::-webkit-scrollbar-thumb {
+        height: 70%;
+        background-color: grey;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    
+    .invite-list::-webkit-scrollbar-track {
+        background-color: white;
+    }
+    /* 김태근 추가 */
+    
+    .boardbox {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+        border-radius: 5px;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        text-align: left;
+    }
+    
+    .boardimg {
+        height: 250px;
+        width: 250px;
+    }
+    /* 10월 12일 추가 */
+    
+    .mainschedule {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        width: 400px;
+    }
+    
+    .modalattendlist {
+        overflow: auto;
+        height: 150px;
+        border-top: 1.5px solid black;
+        border-right: 1.5px solid black;
+        border-bottom: 1.5px solid black;
+        border-left: 1.5px solid black;
+    }
+    
+    .modalattendlist::-webkit-scrollbar {
+        /* 스크롤바 너비 */
+        width: 8px;
+    }
+    
+    .modalattendlist::-webkit-scrollbar-thumb {
+        height: 35%;
+        background-color: #FFA197;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    
+    .modalattendlist::-webkit-scrollbar-track {
+        background-color: white;
+        /* 뒷배경 색상 */
+    }
+    /* 김상혁 메세지 */
+    
+    .message-list {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .tg-c3ow {
+        border-color: inherit;
+        text-align: center;
+        vertical-align: center;
+        font-size: 18px;
+    }
+    
+    .tg .message-m {
+        border-color: inherit;
+        text-align: left;
+        vertical-align: top;
+        font-size: 20px;
+        word-break: break-all;
+    }
+    
+    .tg .message-n {
+        border-color: inherit;
+        text-align: left;
+        vertical-align: center;
+        font-size: 20px;
+    }
+    
+    .messagescorll {
+        overflow: auto;
+        max-height:500px;
+    }
+    
+    .messagescorll::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .messagescorll::-webkit-scrollbar-thumb {
+        height: 70%;
+        background-color: grey;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    
+    .messagescorll::-webkit-scrollbar-track {
+        background-color: white;
+    }
+    /* 달력 */
+    
+    .cal-rap {
+        margin-top: .3rem;
+    }
+    
+    .cal-dateHead {
+        margin-bottom: .4rem;
+    }
+    
+    .cal-dateHead div {
+        background: #FFA197;
+        color: #fff;
+        text-align: center;
+        border-radius: .6rem;
+    }
+    
+    .cal-dateHead h2 {
+        color: #fff;
+        text-align: center;
+    }
+    
+    .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-gap: 3px;
+    }
+    
+    .cal-grid div {
+        font-size: .9rem;
+    }
+    
+    .cal-dateBoard div {
+        color: #222;
+        font-weight: 200;
+        min-height: 6rem;
+        padding: .6rem .8rem;
+        border-radius: .6rem;
+        border: 1px solid #eee;
+    }
+    
+    .cal-noColor {
+        background: #eee;
+    }
+    
+    .cal-header {
+        display: flex;
+        vertical-align: center;
+    }
+    
+    .cal-btn1 {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #FF6F61;
+        border-width: 3px 3px 0 0;
+        cursor: pointer;
+    }
+    
+    .cal-btn2 {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #FFD966;
+        border-width: 3px 3px 0 0;
+        cursor: pointer;
+    }
+    
+    .cal-prevDay {
+        transform: rotate(-135deg);
+    }
+    
+    .cal-nextDay {
+        transform: rotate(45deg);
+    }
+    
+    .tg .schedulebtn {
+        text-align: right;
+        vertical-align: center;
+    }
+    
+    .tg .schedulecon {
+        text-align: left;
+        vertical-align: center;
+        font-size: 18px;
+    }
+    /* 10월 13일 추가 */
+    
+    .schedulelist {
+        overflow: auto;
+        max-height: 200px;
+    }
+    
+    .schedulelist::-webkit-scrollbar {
+        /* 스크롤바 너비 */
+        width: 8px;
+    }
+    
+    .schedulelist::-webkit-scrollbar-thumb {
+        height: 35%;
+        background-color: #FFA197;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    
+    .schedulelist::-webkit-scrollbar-track {
+        background-color: white;
+        /* 뒷배경 색상 */
+    }
+    
+    .myschedule::-webkit-scrollbar {
+        /* 스크롤바 너비 */
+        width: 8px;
+    }
+    
+    .myschedule::-webkit-scrollbar-thumb {
+        height: 35%;
+        background-color: #FFA197;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    
+    .myschedule::-webkit-scrollbar-track {
+        background-color: white;
+        /* 뒷배경 색상 */
+    }
+    
+    .myschedule {
+        overflow: auto;
+        height: 295px;
+    }
+    
+    .tg .myschedulename {
+        font-size: 15px;
+        text-align: left;
+        vertical-align: center;
+        padding: .5rem;
+    }
+    
+    .tg .myschedulegender {
+        font-size: 15px;
+        text-align: left;
+        vertical-align: center;
+        padding: .5rem;
+    }
+    
+    .tg .myscheduleage {
+        font-size: 15px;
+        text-align: left;
+        vertical-align: center;
+        padding: .5rem;
+    }
+    /* 김태근 make */
+    
+    .makebox {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        text-align: left;
+        background-color: white
+    }
+    
+    .filebox label {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid #ebebeb;
+        border-radius: .25em;
+    }
+    /* 김상혁 setting */
+    
+    .settingbox {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .setting-1 {
+        border-color: inherit;
+        text-align: center;
+        vertical-align: center;
+        border-bottom: 1.5px solid #F2F2F2;
+        font-size: 23px;
+    }
+    
+    .tg .setting-2 {
+        text-align: left;
+        vertical-align: center;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .setting-3 {
+        text-align: left;
+        vertical-align: center;
+        border-bottom: 1.5px solid #F2F2F2;
+    }
+    
+    .tg .setting-4 {
+        text-align: left;
+        vertical-align: center;
+    }
+    
+    .disbandingbox {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+        padding: 2rem 0rem 2rem 2rem
+    }
+    
+    .setting-but {
+        border-color: inherit;
+        text-align: right;
+        vertical-align: center;
+    }
+    /* 김상혁 쪽지 */
+    
+    .messagebox {
+        border-top: 1.5px solid #F2F2F2;
+        border-right: 1.5px solid #F2F2F2;
+        border-bottom: 1.5px solid #F2F2F2;
+        border-left: 1.5px solid #F2F2F2;
+        border-radius: 5px 5px 5px 5px;
+    }
+    
+    .messageread {
+        width: 990px;
+        word-break: break-all;
+    }
+    
+    .message-but {
+        border-color: inherit;
+        text-align: right;
+        vertical-align: center;
+    }
+    /* 김태근 로그인 메인 */
+    
+    .loginmain {
+        text-align: left;
+        vertical-align: top;
+        margin-bottom: -1rem;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    
+    .loginmainimg {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .loginmainimg2 {
+        width: 225px;
+        height: 225px;
+    }
+    
+    .loginmaintable {
+        border-top: 1.5px solid black;
+        border-right: 1.5px solid black;
+        border-bottom: 1.5px solid black;
+        border-left: 1.5px solid black;
+        border-collapse: separate;
+        border-radius: 10px;
+    }
+    
+    .loginmainp {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: break-word;
+        word-break: break-all;
+        width: 600px;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical
+    }
+    
+    .loginmainmylist {
+        overflow: auto;
+    }
+    
+    .loginmainmylist::-webkit-scrollbar {
+        /* 스크롤바 너비 */
+        width: 4px;
+    }
+    
+    .loginmainmylist::-webkit-scrollbar-thumb {
+        height: 25%;
+        background-color: #FFA197;
+        border-radius: 10px;
+        background-clip: padding-box;
+    }
+    
+    .loginmainmylist::-webkit-scrollbar-track {
+        background-color: white;
+        /* 뒷배경 색상 */
+    }
+    
+    .loginmain-hero {
+        height: 300px;
+        width: 100%;
+        background-position: center;
+    }
+    /* 10월 14일 추가 */
+    
+    .locsearch-list {
+        width: 100%;
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    .locsearch-list li a {
+        position: relative;
+        display: block;
+        line-height: auto;
+        color: black;
+        padding-bottom: 0;
+    }
+    
+    .locsearch-list li a .title {
+        display: block;
+        text-overflow: ellipsis;
+        width: 150px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    
+    .locsearch-list li a .loc {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 90%;
+        display: block;
+        text-overflow: ellipsis;
+        width: 150px;
+        overflow: hidden;
+        white-space: nowrap;
+    }

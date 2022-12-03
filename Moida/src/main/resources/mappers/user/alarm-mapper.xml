@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alarmMapper">
+	<resultMap type="Alarm" id="alarmResultMap">
+		<result property="alNo" column="ALNO" />
+		<result property="uNo" column="UNO" />
+		<result property="gNo" column="GNO" />
+		<result property="alCont" column="ALCONT" />
+		<result property="alDate" column="ALDATE" />
+		<result property="gName" column="GNAME" />
+	</resultMap>
+	<select id="selectAlarm" parameterType="int" resultMap="alarmResultMap">
+		select
+		a.alNo, a.uNo, a.gNo, a.alCont, a.alDate, m.gName
+		from
+		alarm a, moim m
+		where
+		a.gNo = m.gNo
+		and a.uNo = #{uNo}
+	</select>
+	
+	<insert id="insertAlarm" parameterType="map">
+		insert into
+			alarm
+		values(
+			seq_alNo.nextval, #{uNo},#{gNo},#{alCont},default
+		)
+	</insert>
+	<select id="selectAlarmByGNo" parameterType="map" resultMap="alarmResultMap">
+		select
+		a.alNo, a.uNo, a.gNo, a.alCont, a.alDate, m.gName
+		from
+		alarm a, moim m
+		where
+		a.gNo = m.gNo
+		and a.uNo = #{uNo}
+		and a.gNo = #{gNo}
+	</select>
+	<delete id="deleteAlarm" parameterType="map">
+		delete from
+			alarm
+		where
+			uNo = #{uNo}
+			and gNo = #{gNo}
+	</delete>
+</mapper>
